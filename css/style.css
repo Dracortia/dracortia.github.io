@@ -745,7 +745,8 @@ display:block;
     .header-bar ul.social li {
       display: inline-block; }
       .header-bar ul.social li a {
-        padding: 5px; }
+        padding: 5px;  
+        font-size: 1rem; }
         .header-bar ul.social li a:hover {
           color: #DE9E48; }
       .header-bar ul.social li:first-child a {
