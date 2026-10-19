@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Redirecting to Picdrop</title>
+</head>
+<body>
+  <p>Redirecting to gallery...</p>
+
+  <script>
+    const account = "eloysfx";
+    const prefix = "/picdrop/";
+
+    const path = window.location.pathname;
+    const gallery = path.startsWith(prefix)
+      ? path.slice(prefix.length).replace(/\/$/, "")
+      : "";
+
+    const destination = gallery
+      ? `https://www.picdrop.com/${account}/${gallery}`
+      : `https://www.picdrop.com/${account}`;
+
+    window.location.replace(destination);
+  </script>
+</body>
+</html>
