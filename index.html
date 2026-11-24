@@ -1,388 +1,476 @@
-<!-- /*
-* Template Name: Snap
-* Template Author: Untree.co
-* Tempalte URI: https://untree.co/
-* License: https://creativecommons.org/licenses/by/3.0/
-*/ -->
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="author" content="Dracortia">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <meta property="og:site_name" content="Dracortia"></meta>
-  <meta property="og:title" content="Dracortia - Music & Sound Production Studio">
-  <meta property="og:description" content="Composing, Technical Sound Design and Anything Audio">
-  <meta property="og:image" content="https://dracortia.com/images/bg-min.png">
+<title>Dracortia — Music &amp; Sound Production for Games</title>
+<meta name="description" content="Dracortia is an independent audio studio composing music and designing sound for games — composition, sound design, technical audio and implementation for indie teams.">
+<meta name="author" content="Dracortia">
+<link rel="canonical" href="https://dracortia.com/">
 
-  <link rel="shortcut icon" href="favicon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Dracortia">
+<meta property="og:title" content="Dracortia — Music &amp; Sound Production for Games">
+<meta property="og:description" content="Composition, sound design and audio implementation for independent game studios.">
+<meta property="og:image" content="https://dracortia.com/images/logo-lockup.png">
+<meta property="og:url" content="https://dracortia.com/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#04060A">
 
-  <meta name="description" content="" />
-  <meta name="keywords" content="" />
-  
+<link rel="icon" href="favicon.png">
+<link rel="stylesheet" href="css/dra.css">
 
-  <link href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600, 700,900|Oswald:400,700" rel="stylesheet">
-
-
-  <link rel="stylesheet" href="fonts/icomoon/style.css">
-
-  <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/magnific-popup.css">
-  <link rel="stylesheet" href="css/jquery-ui.css">
-  <link rel="stylesheet" href="css/owl.carousel.min.css">
-  <link rel="stylesheet" href="css/owl.theme.default.min.css">
-  <link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
-
-  <link rel="stylesheet" href="css/aos.css">
-
-  <link rel="stylesheet" href="css/style.css">
-  <title>Dracortia &mdash; Music Production Studio</title>
-
-
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Dracortia",
+  "url": "https://dracortia.com/",
+  "logo": "https://dracortia.com/images/logo-lockup.png",
+  "email": "dracortia@gmail.com",
+  "founder": { "@type": "Person", "name": "Eloy De Cort", "jobTitle": "Technical Audio Designer" },
+  "description": "Independent audio studio composing music and designing sound for games.",
+  "sameAs": ["https://x.com/Dracortia", "https://www.linkedin.com/company/dracortia"]
+}
+</script>
 </head>
-<body data-spy="scroll" data-target=".site-navbar-target" data-offset="200">
 
+<body>
 
-  <div class="site-wrap">
+<div class="grain" aria-hidden="true"></div>
 
-    <div class="site-mobile-menu site-navbar-target">
-      <div class="site-mobile-menu-header">
-        <div class="site-mobile-menu-close mt-3">
-          <span class="icon-close2 js-menu-toggle"></span>
+<div class="cursor" id="cursor" aria-hidden="true">
+  <span class="cursor-dot"></span>
+  <span class="cursor-ring"></span>
+</div>
+
+<!-- ==================================================================
+     HEADER
+     ================================================================== -->
+<header class="site-header" id="header">
+  <a class="brand" href="#top" aria-label="Dracortia — home">
+    <img src="images/logo-lockup.png" alt="Dracortia">
+  </a>
+
+  <nav class="nav" id="nav" aria-label="Main">
+    <a href="#work">Work</a>
+    <a href="#studio">Studio</a>
+    <a href="#voices">Voices</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <div class="header-actions">
+    <a class="btn btn-primary btn-sm magnetic" href="#contact">
+      Start a project
+      <svg class="arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="nav" aria-label="Open menu">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+
+<!-- ==================================================================
+     HERO
+     ================================================================== -->
+<section class="hero" id="top">
+
+  <canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
+
+  <div class="hero-scrim" aria-hidden="true"></div>
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="hero-marks" aria-hidden="true"></div>
+
+  <canvas class="spectrum" id="spectrum" aria-hidden="true"></canvas>
+
+  <div class="wrap hero-inner">
+    <p class="hero-eyebrow"><span class="pulse" aria-hidden="true"></span>Independent audio studio · est. 2023</p>
+
+    <h1 class="hero-title">
+      <span class="line">Sound with</span>
+      <span class="line">gravity.</span>
+    </h1>
+
+    <p class="hero-sub">
+      Dracortia composes music and builds sound for games — from the first sketch of a theme to the last
+      mix that ships. <strong>Composition, sound design and the technical work underneath.</strong>
+    </p>
+
+    <div class="hero-cta">
+      <a class="btn btn-primary btn-lg magnetic" href="#work">
+        Hear the work
+        <svg class="arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="btn btn-ghost btn-lg" href="#contact">Start a project</a>
+    </div>
+  </div>
+
+  <div class="hero-foot">
+    <div class="hero-stats">
+      <div class="hero-stat"><b data-count="5">5</b><span>Game titles</span></div>
+      <div class="hero-stat"><b data-count="4">4</b><span>Studio clients</span></div>
+      <div class="hero-stat"><b>2</b><span>In-house engines</span></div>
+    </div>
+
+    <div class="hero-social">
+      <a href="mailto:dracortia@gmail.com" aria-label="Email Dracortia">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3.5 6 8.5 6.5L20.5 6"/></svg>
+      </a>
+      <a href="https://x.com/Dracortia" target="_blank" rel="noopener" aria-label="Dracortia on X">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.6 3h3.3l-7.2 8.2L22 21h-6.4l-5-6.2L4.8 21H1.5l7.7-8.8L1.7 3h6.6l4.5 5.7L17.6 3Zm-1.1 16h1.8L7.1 4.8H5.2L16.5 19Z"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/company/dracortia" target="_blank" rel="noopener" aria-label="Dracortia on LinkedIn">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.8 3.2a2.2 2.2 0 1 0 0 4.4 2.2 2.2 0 0 0 0-4.4ZM3 9.2h3.6V21H3V9.2Zm6 0h3.4v1.6h.1c.7-1.1 1.9-1.9 3.7-1.9 3.1 0 3.8 2 3.8 4.7V21h-3.6v-6.3c0-1.6-.5-2.7-1.9-2.7-1.1 0-1.8.8-2.1 1.5-.1.3-.1.6-.1 1V21H9V9.2Z"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="scroll-cue" aria-hidden="true"><span></span></div>
+</section>
+
+<!-- ==================================================================
+     MARQUEE
+     ================================================================== -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <div class="marquee-group">
+      <span>Composition</span><span>Sound design</span><span>Audio implementation</span><span>Technical audio</span><span>Mixing</span><span>Audio programming</span>
+    </div>
+    <div class="marquee-group">
+      <span>Composition</span><span>Sound design</span><span>Audio implementation</span><span>Technical audio</span><span>Mixing</span><span>Audio programming</span>
+    </div>
+  </div>
+</div>
+
+<!-- ==================================================================
+     WORK
+     ================================================================== -->
+<section class="section" id="work">
+  <div class="disc disc-work" aria-hidden="true">
+    <svg viewBox="0 0 400 400" fill="none" stroke="currentColor" stroke-linecap="round">
+      <circle cx="200" cy="200" r="196" stroke-width="1.1" stroke-dasharray="2 9"/>
+      <circle cx="200" cy="200" r="150" stroke-width="1" opacity=".55"/>
+      <circle cx="200" cy="200" r="96" stroke-width="1" stroke-dasharray="1 5" opacity=".8"/>
+      <path d="M200 50 A150 150 0 0 1 350 200" stroke-width="2.2" opacity=".8"/>
+    </svg>
+  </div>
+
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="sec-kicker"><span class="idx">01</span>Client work</p>
+      <h2 class="sec-title" data-scramble>Games we lent our ears to.</h2>
+      <p class="sec-lede">Music and sound for independent studios — scored, designed and implemented. Press any card to watch it move.</p>
+    </div>
+
+    <div class="work-grid">
+      <article class="card reveal" data-modal="modal-1">
+        <div class="card-media">
+          <img src="https://i.ytimg.com/vi/0ExXmmjxRBg/hqdefault.jpg" alt="Soul Spires: Initium" loading="lazy" onerror="this.style.display='none'">
+          <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
         </div>
-      </div>
-      <div class="site-mobile-menu-body"></div>
-    </div>
-
-    <header class="header-bar d-flex d-lg-block align-items-center site-navbar-target" data-aos="fade-right">
-      <div class="site-logo">
-      </div>
-
-      <div class="d-inline-block d-lg-none ml-md-0 ml-auto py-3" style="position: relative; top: 3px;"><a href="#" class="site-menu-toggle js-menu-toggle "><span class="icon-menu h3"></span></a></div>
-
-      <div class="main-menu">
-        <ul class="js-clone-nav">
-          <li><a href="#section-home" class="nav-link">Home</a></li>
-          <li><a href="#section-clients" class="nav-link">Client Work</a></li>
-          <!-- <li><a href="#section-soundtracks" class="nav-link">Soundtracks</a></li>
-          <li><a href="#section-packages" class="nav-link">Packages</a></li> -->
-          <li><a href="#section-team" class="nav-link">Team</a></li>
-          <li><a href="#section-testimonial" class="nav-link">Testimonials</a></li>
-          <li><a href="#section-contact" class="nav-link">Contact</a></li>
-        </ul>
-        <ul class="social js-clone-nav">
-          <li><a href="mailto:dracortia@gmail.com" target=”_blank”><span class="icon-mail_outline"></span></a></li>
-          <li><a href="https://x.com/Dracortia" target=”_blank”><span class="icon-x"></span></a></li>
-          <li><a href="https://www.linkedin.com/company/dracortia" target=”_blank” ><span class="icon-linkedin"></span></a></li>
-        </ul>
-      </div>
-    </header> 
-    <main class="main-content">
-      
-      <section class="site-section-hero bg-image mb-5"  data-stellar-background-ratio="0.5" id="section-home">
-        <div class="pixel-overlay">
-        <div class="parallax-container">
-          <!-- <video class="parallax-video" autoplay muted loop>
-              <source src="images/dracortia.mp4" type="video/mp4">
-              Your browser does not support the video tag.
-          </video> -->
-          <div class="videoShadow"></div>
-       </div>  
-       </div>
-      
-        <div class="videoOverlay text-overlay row justify-content-center align-items-center">
-          <div class="col-md-8 text-center">
-              <img src="images/LOGO.png" alt="Image" class="img-fluid mb-4 w-35" >
-          </div>
-       </div>
-      </section>
-    
-
- <section class="site-section" id="section-clients">
-        <!-- Tracks used in this music/audio player application are free to use. I downloaded them from Soundcloud and NCS websites. I am not the owner of these tracks. -->
-  
-  <div class="container">
-    <div data-aos="fade-up"  data-aos-delay="100">
-    <div class="row justify-content-center">
-      <div class="col text-center">
-        <h2 class="heading">Client Work</h2>
-      </div>
-    </div>
-    </div>
-
-    <div data-aos="fade-up"  data-aos-delay="100">
-      <div class="row justify-content-center">
-        <div class="col-md-6 testimony text-center ratio ratio-16x9">
-          <iframe src="https://www.youtube.com/embed/0ExXmmjxRBg?si=YObm_dxyzu5nT8ZS" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="width: 100%; height: 300px;"></iframe>
-          <a href="https://www.soulspires.com/" target="_blank">Soul Spires: Initium - Square Table Games</a>
+        <div class="card-body">
+          <p class="card-meta">Square Table Games</p>
+          <h3 class="card-title">Soul Spires: Initium</h3>
+          <p class="card-sub">Original music and sound design for the reveal.</p>
+          <span class="card-more">Watch <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         </div>
-    <div data-aos="fade-up"  data-aos-delay="100">
-    <div class="row justify-content-center">
-      <div class="col-md-6 testimony text-center ratio ratio-16x9">
-        <iframe src="https://www.youtube.com/embed/03TC8wSO9PU?si=31eNGJaZcueCmPfu" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="width: 100%; height: 300px;"></iframe>
-        <a href="https://questseeker.games/" target="_blank">Quest Seeker Games</a>
+      </article>
+
+      <article class="card reveal" data-modal="modal-2">
+        <div class="card-media">
+          <img src="https://i.ytimg.com/vi/03TC8wSO9PU/hqdefault.jpg" alt="Quest Seeker Games" loading="lazy" onerror="this.style.display='none'">
+          <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        </div>
+        <div class="card-body">
+          <p class="card-meta">Quest Seeker Games</p>
+          <h3 class="card-title">Rogue Slime</h3>
+          <p class="card-sub">An original piece written for the studio.</p>
+          <span class="card-more">Watch <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+      </article>
+
+      <article class="card reveal" data-modal="modal-3">
+        <div class="card-media">
+          <img src="https://i.ytimg.com/vi/9V5tDmusu08/hqdefault.jpg" alt="Don't Lose Aggro" loading="lazy" onerror="this.style.display='none'">
+          <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        </div>
+        <div class="card-body">
+          <p class="card-meta">Don't Lose Aggro</p>
+          <h3 class="card-title">Don't Lose Aggro</h3>
+          <p class="card-sub">Music and audio for the action RPG.</p>
+          <span class="card-more">Watch <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+      </article>
+
+      <article class="card reveal" data-modal="modal-4">
+        <div class="card-media">
+          <img src="https://i.ytimg.com/vi/ux2sh79JPpc/hqdefault.jpg" alt="Don't Lose Aggro" loading="lazy" onerror="this.style.display='none'">
+          <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        </div>
+        <div class="card-body">
+          <p class="card-meta">Don't Lose Aggro · in-game</p>
+          <h3 class="card-title">Don't Lose Aggro</h3>
+          <p class="card-sub">Sound design and mix in context.</p>
+          <span class="card-more">Watch <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     STUDIO
+     ================================================================== -->
+<section class="section" id="studio">
+  <div class="disc disc-studio" aria-hidden="true">
+    <svg viewBox="0 0 400 400" fill="none" stroke="currentColor" stroke-linecap="round">
+      <path d="M20 380 A360 360 0 0 1 380 20" stroke-width="1.1" opacity=".5"/>
+      <path d="M70 380 A310 310 0 0 1 380 70" stroke-width="1.1" opacity=".65"/>
+      <path d="M120 380 A260 260 0 0 1 380 120" stroke-width="2" opacity=".85"/>
+    </svg>
+  </div>
+
+  <div class="wrap">
+    <div class="studio-grid">
+      <div class="portrait reveal">
+        <div class="portrait-frame">
+          <img src="images/founder.jpg" alt="Eloy De Cort, founder of Dracortia" width="760" height="760">
+        </div>
+        <p class="portrait-cap"><b>Eloy De Cort</b>Founder · composer &amp; technical audio</p>
       </div>
-      <div class="col-md-6 testimony text-center ratio ratio-16x9">
-        <iframe src="https://www.youtube.com/embed/9V5tDmusu08?si=JAWHk28JGnWXIYeR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="width: 100%; height: 300px;"></iframe>
-        <a href="https://store.steampowered.com/app/3079160/Dont_Lose_Aggro/" target="_blank">Don't Lose Aggro</a>
-      </div>
-      <div class="col-md-6 testimony text-center ratio ratio-16x9">
-        <iframe src="https://www.youtube.com/embed/ux2sh79JPpc?si=JbwNkGoj58LGQRqG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="width: 100%; height: 300px;"></iframe>
-        <a href="https://store.steampowered.com/app/3079160/Dont_Lose_Aggro/" target="_blank">Don't Lose Aggro</a>
+
+      <div class="prose">
+        <div class="sec-head reveal" style="margin-bottom:3rem">
+          <p class="sec-kicker"><span class="idx">02</span>The studio</p>
+          <h2 class="sec-title" data-scramble>One pair of hands, from sketch to master.</h2>
+        </div>
+
+        <div class="reveal">
+          <p class="lead">Dracortia was born from a straightforward notion — sharing a passion and a skill set with a broader audience.</p>
+          <p>Across my professional work I've cultivated composition and programming side by side, and the studio is where those two meet. Composition that knows what an engine can do; implementation that respects the music.</p>
+          <p>A current role as Technical Audio Designer in the games industry — and past work as an Audio Programmer — means I build for the pipeline, not just for the demo. Game-ready assets, workflows that hold up, and an ear for what the player actually hears.</p>
+        </div>
+
+        <div class="services reveal">
+          <div class="service"><i>01</i>Composing &amp; arrangement</div>
+          <div class="service"><i>02</i>Mixing &amp; mastering</div>
+          <div class="service"><i>03</i>Technical audio design</div>
+          <div class="service"><i>04</i>Audio design</div>
+          <div class="service"><i>05</i>Audio programming</div>
+          <div class="service"><i>06</i>Advice &amp; lessons</div>
+          <div class="service"><i>07</i>Royalty-free music</div>
+          <div class="service"><i>08</i>Sound implementation</div>
+        </div>
       </div>
     </div>
   </div>
+</section>
+
+<!-- ==================================================================
+     VOICES
+     ================================================================== -->
+<section class="section" id="voices">
+  <div class="disc disc-voices" aria-hidden="true">
+    <svg viewBox="0 0 400 400" fill="none" stroke="currentColor" stroke-linecap="round">
+      <circle cx="200" cy="200" r="190" stroke-width="1" stroke-dasharray="2 10" opacity=".65"/>
+      <circle cx="200" cy="200" r="142" stroke-width="1" stroke-dasharray="1 6" opacity=".55"/>
+      <path d="M200 10 A190 190 0 0 1 390 200" stroke-width="2.4" opacity=".8"/>
+    </svg>
   </div>
 
-
-</section> <!-- #section-clients -->
-
-
- <!-- <section class="site-section" id="section-soundtracks">
-  
-<div class="container">
-<div data-aos="fade-up"  data-aos-delay="100">
-<div class="row justify-content-center">
-<div class="col text-center">
-  <h2 class="heading">Soundtracks</h2>
-</div>
-</div>
-</div>
-
-<div data-aos="fade-up"  data-aos-delay="100">
-  <div class="row justify-content-center">
-    <div class="col-md-6 testimony text-center ratio ratio-16x9">
-      <iframe src="https://www.youtube.com/embed/iSWYyPjsIQ0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="width: 100%; height: 300px;"></iframe>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="sec-kicker"><span class="idx">03</span>Voices</p>
+      <h2 class="sec-title" data-scramble>What the teams say.</h2>
     </div>
-  </div>
-<div class="row justify-content-center">
-<div class="col-md-6 testimony text-center ratio ratio-16x9">
-  <iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/05vss5M8JXdjM4cY95CpRp?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-</div>
-</div>
 
-</div>
-</div>
-
-
-</section> #section-soundtracks 
-
-
-      <section class="site-section" id="section-packages">
-       
-  
-          <div class="container">
-            <div data-aos="fade-up"  data-aos-delay="100">
-            <div class="row justify-content-center">
-              <div class="col text-center">
-                <h2 class="heading">Royalty-Free Packages</h2>
-              </div>
-            </div>
-            </div>
-
-            <div data-aos="fade-up"  data-aos-delay="100">
-            <div class="row justify-content-center">
-                  <div class="col-md-6 testimony text-center ratio ratio-16x9">
-                        <iframe  src="https://www.youtube.com/embed/G1xXPSgpeXk?si=Y0UZ5aXNTZqlPcG_" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen  style="width: 100%; height: 300px;"></iframe>
-                        <a href="https://dracortia.lemonsqueezy.com/checkout/buy/6b3bb72f-38a4-4496-8de7-b848f67b063f?embed=1&dark=1&checkout%5Bdiscount_code%5D=NY2024" class="lemonsqueezy-button">Buy Dracortia - Royalty Free Package #1 - Chronicles</a><script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
-                  </div>
-            </div>
-          </div>
-          </div>
-
-        </section> #section-packages -->
-
-        <section class="site-section" id="section-team">
-          <div class="container">
-            <div class="row justify-content-center">
-
-              <div class="col-md-8">
-
-                <!-- <h2 class="heading">About</h2> -->
-
-                <div data-aos="fade-up"  data-aos-delay="100">
-                <img src="images/img1.jpg" alt="Image" class="img-fluid mb-4 w-25 rounded-circle d-block mx-auto" >
-                </div>
-
-                <div data-aos="fade-up"  data-aos-delay="100">
-                  <h2 class="text-center">Eloy De Cort - Founder</h2>
-                  <p class="text-center">Dracortia was born from a straightforward notion — sharing my passion and skills with a broader audience. Throughout my professional journey, I have cultivated my skills in composition and programming, finding immense personal fulfillment in these pursuits. Now, I am eager to leverage my expertise to engage in collaborative ventures within the industry.</p>
-                  <p class="text-center">My current role as a Technical Audio Designer in the gaming industry, along with past experience as an Audio Programmer, provides a unique perspective. This background equips me with insights into establishing effective audio workflows, creating game-ready content, and ensuring an exceptional auditory experience.</p>
-                  
-                  <h3 class=" mt-5 text-center ">Services</h3>
-                  <div class="d-block d-flex mt-5">
-                    <div class="mx-auto">
-                      <ul class="ul-check list-unstyled primary">
-                        <li>Composing & Arrangement</li>
-                        <li>Mixing & Mastering</li>
-                        <li>Technical Audio Design</li>
-                        <li>Audio Design</li>
-                      </ul>
-                    </div>
-                    <div class="mx-auto ">
-                      <ul class="ul-check list-unstyled primary">
-                        <li>Audio Programming</li>
-                        <li>Advice & Lessons</li>
-                        <li>Royalty Free Music</li>
-                        <li>Sound Implementation</li>
-                      </ul>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="site-section" id="section-testimonial">
-          <div class="container">
-            <div data-aos="fade-up"  data-aos-delay="100">
-            <div class="row justify-content-center">
-              <div class="col-md-8 text-center">
-                <h2 class="heading">Testimonials</h2>
-
-                <div class="row justify-content-center">
-                  <div class="col-md-12">
-
-                    <div class="owl-carousel slide-one-item home-slider">
-                      <div class="testimony text-center px-md-4">
-                        <figure class="mx-auto d-inline-block">
-                          <img src="images/SoulSpires.png" alt="Soul Spires: Initium" class="mx-auto img-fluid w-25 rounded-circle">
-                        </figure>
-                        <p class="text-white"><strong>Soul Spires: Initium</strong></p>
-                        <blockquote>
-                          <p>&ldquo;From the start Eloy has been an absolute pleasure to work with. He has been incredibly responsive and professional as well as incredibly talented- <b>exceeding our expectations and delivering us stunning compositions and sounds for our indie game, making sure to work with us every step of the way.</b>&rdquo;</p>
-                        </blockquote>
-                      </div>
-
-
-                      <div class="testimony text-center px-md-4">
-                        <figure class="mx-auto d-inline-block">
-                          <img src="images/DLA.jpg" alt="Don't Lose Aggro" class="mx-auto img-fluid w-25 rounded-circle">
-                        </figure>
-                        <p class="text-white"><strong>Don't Lose Aggro</strong></p>
-                        <blockquote>
-                          <p>&ldquo;<b>Dracortia understands what it means to work on an indie game</b>, iterating with Eloy is an immense pleasure that yields <b>fantastic results</b>. Both for composition and sound design Eloy has proven to be a perfect fit for the project"&rdquo;</p>
-                        </blockquote>
-                      </div>
-
-                      <div class="testimony text-center px-md-4">
-                        <figure class="mx-auto d-inline-block">
-                          <img src="images/QuestSeeker.jpg" alt="Quest Seeker Games" class="mx-auto img-fluid w-25 rounded-circle">
-                        </figure>
-                        <p class="text-white"><strong>Quest Seeker Games</strong></p>
-                        <blockquote>
-                          <p>&ldquo;Thanks to Dracortia for this beautiful piece.<br>It's been a pleasure working with Eloy!&rdquo;</p>
-                        </blockquote>
-                      </div>
-
-                      <div class="testimony text-center px-md-4">
-                        <figure class="mx-auto d-inline-block">
-                          <img src="images/gwj.png" alt="Sevadusk" class="mx-auto img-fluid w-25 rounded-circle">
-                        </figure>
-                        <p class="text-white"><strong>Sevadusk</strong></p>
-                        <blockquote>
-                          <p>&ldquo;Dracortia is a <b>very talented and reliable</b> composer and<br> delivered 9 magical masterpieces in 9 days.
-                            <br>If you find yourself thinking twice about who to work with, look no further.&rdquo;</p>
-                        </blockquote>
-                      </div>
-
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-            </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="site-section" id="section-contact">
-          <div class="container">
-            <div data-aos="fade-up"  data-aos-delay="100">
-            <div class="row justify-content-center">
-              <div class="col-md-8">
-                <h2 class=" mb-5 heading text-center">Contact</h2>
-
-                <form action="https://formsubmit.co/512835a4280f69f0842263082752156c" method="POST" />
-                  <div class="row form-group">
-                    <div class="col-md-6 mb-3 mb-md-0">
-                      <label class="" for="fname">First Name</label>
-                      <input type="text" id="fname" name="fname" class="form-control">
-                    </div>
-                    <div class="col-md-6">
-                      <label class="" for="lname">Last Name</label>
-                      <input type="text" id="lname" name="lname" class="form-control">
-                    </div>
-                  </div>
-
-                  <div class="row form-group">
-
-                    <div class="col-md-12">
-                      <label class="" for="email">Email</label> 
-                      <input type="email" id="email" name="email" class="form-control">
-                    </div>
-                  </div>
-
-                  <div class="row form-group">
-
-                    <div class="col-md-12">
-                      <label class="" for="subject">Subject</label> 
-                      <input type="subject" id="subject" name="subject" class="form-control">
-                    </div>
-                  </div>
-
-                  <div class="row form-group mb-5">
-                    <div class="col-md-12">
-                      <label class="" for="message">Message</label> 
-                      <textarea name="message" id="message" name="message" cols="30" rows="7" class="form-control"></textarea>
-                    </div>
-                  </div>
-
-                  <div class="row form-group">
-                    <div class="col-md-12 text-center">
-                      <input type="submit" value="Send Message" class="btn btn-primary btn-md">
-                    </div>
-                  </div>
-
-
-                </form>
-              </div>
-            </div>
-            </div>
-          </div>
-        </section>
-        
-        <section class="site-section" id="section-copyright">
-        <div class="text-center justify-content-center">
-            <p>Copyright &copy;Dracortia <script>document.write(new Date().getFullYear());</script>. All Rights Reserved. <br> Designed by <a href="https://untree.co">Untree.co</a> Distributed By <a href="https://themewagon.com">ThemeWagon</a><!-- License information: https://untree.co/license/ -->
-            </p>
+    <div class="slider reveal" id="slider">
+      <div class="slide is-active">
+        <p class="quote-mark" aria-hidden="true">“</p>
+        <p class="quote">From the start Eloy has been an absolute pleasure to work with. He has been incredibly responsive and professional as well as incredibly talented — <b>exceeding our expectations and delivering us stunning compositions and sounds for our indie game</b>, making sure to work with us every step of the way.</p>
+        <div class="byline">
+          <img src="images/SoulSpires.png" alt="">
+          <div><strong>Soul Spires: Initium</strong><span>Square Table Games</span></div>
         </div>
       </div>
-    </section>
-    </main>
 
-  </div> <!-- .site-wrap -->
+      <div class="slide">
+        <p class="quote-mark" aria-hidden="true">“</p>
+        <p class="quote"><b>Dracortia understands what it means to work on an indie game.</b> Iterating with Eloy is an immense pleasure that yields <b>fantastic results</b> — both for composition and sound design he has proven to be a perfect fit for the project.</p>
+        <div class="byline">
+          <img src="images/DLA.jpg" alt="">
+          <div><strong>Don't Lose Aggro</strong><span>Game studio</span></div>
+        </div>
+      </div>
 
-  <script src="js/jquery-3.3.1.min.js"></script>
-  <script src="js/jquery-migrate-3.0.1.min.js"></script>
-  <script src="js/jquery.easing.1.3.js"></script>
-  <script src="js/jquery-ui.js"></script>
-  <script src="js/popper.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/owl.carousel.min.js"></script>
-  <script src="js/jquery.stellar.min.js"></script>
-  <script src="js/jquery.countdown.min.js"></script>
-  <script src="js/jquery.magnific-popup.min.js"></script>
-  <script src="js/aos.js"></script>
-  <script src="js/lozad.min.js"></script>
-  
-  <script src="js/musicPlayer.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/parallax.js"></script>
+      <div class="slide">
+        <p class="quote-mark" aria-hidden="true">“</p>
+        <p class="quote">Thanks to Dracortia for this beautiful piece. It's been a pleasure working with Eloy.</p>
+        <div class="byline">
+          <img src="images/QuestSeeker.jpg" alt="">
+          <div><strong>Quest Seeker Games</strong><span>Game studio</span></div>
+        </div>
+      </div>
 
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  </body>
+      <div class="slide">
+        <p class="quote-mark" aria-hidden="true">“</p>
+        <p class="quote">Dracortia is a <b>very talented and reliable</b> composer and delivered <b>9 magical masterpieces in 9 days</b>. If you find yourself thinking twice about who to work with, look no further.</p>
+        <div class="byline">
+          <img src="images/gwj.png" alt="">
+          <div><strong>Sevadusk</strong><span>Composer collaboration</span></div>
+        </div>
+      </div>
+
+      <div class="slider-nav">
+        <button type="button" id="prev" aria-label="Previous quote">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button type="button" id="next" aria-label="Next quote">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <span class="slider-count"><b id="slideNow">01</b> / 04</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     CONTACT
+     ================================================================== -->
+<section class="section contact" id="contact">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="sec-kicker"><span class="idx">04</span>Contact</p>
+      <h2 class="sec-title" data-scramble>Tell us what you're making.</h2>
+      <p class="sec-lede">A pitch, a prototype, a half-finished theme — send it over. Replies usually within a day.</p>
+    </div>
+
+    <div class="contact-grid">
+      <form class="reveal" action="https://formsubmit.co/512835a4280f69f0842263082752156c" method="POST">
+        <div class="form-row">
+          <div class="field">
+            <label for="fname">First name</label>
+            <input type="text" id="fname" name="fname" required>
+          </div>
+          <div class="field">
+            <label for="lname">Last name</label>
+            <input type="text" id="lname" name="lname">
+          </div>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="field">
+          <label for="subject">Subject</label>
+          <input type="text" id="subject" name="subject">
+        </div>
+        <div class="field">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="7" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg magnetic">
+          Send message
+          <svg class="arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <input type="hidden" name="_subject" value="New enquiry from dracortia.com">
+        <input type="text" name="_honey" style="display:none">
+      </form>
+
+      <aside class="contact-aside reveal">
+        <div class="contact-card">
+          <h3>Direct</h3>
+          <a class="line" href="mailto:dracortia@gmail.com">dracortia@gmail.com</a>
+          <a class="line" href="https://x.com/Dracortia" target="_blank" rel="noopener">x.com/Dracortia</a>
+          <a class="line" href="https://www.linkedin.com/company/dracortia" target="_blank" rel="noopener">linkedin.com/company/dracortia</a>
+        </div>
+        <div class="contact-card">
+          <h3>Studio</h3>
+          <p class="line">Wuppertal, Germany</p>
+          <p class="line">CET / UTC+1</p>
+          <p class="line">Working with teams worldwide</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ==================================================================
+     FOOTER
+     ================================================================== -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <img src="images/logo-lockup.png" alt="Dracortia">
+      <p class="footer-note">Music &amp; sound production for games</p>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span data-year>2026</span> Dracortia — all rights reserved.</span>
+      <div class="footer-social">
+        <a href="mailto:dracortia@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3.5 6 8.5 6.5L20.5 6"/></svg></a>
+        <a href="https://x.com/Dracortia" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.6 3h3.3l-7.2 8.2L22 21h-6.4l-5-6.2L4.8 21H1.5l7.7-8.8L1.7 3h6.6l4.5 5.7L17.6 3Zm-1.1 16h1.8L7.1 4.8H5.2L16.5 19Z"/></svg></a>
+        <a href="https://www.linkedin.com/company/dracortia" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.8 3.2a2.2 2.2 0 1 0 0 4.4 2.2 2.2 0 0 0 0-4.4ZM3 9.2h3.6V21H3V9.2Zm6 0h3.4v1.6h.1c.7-1.1 1.9-1.9 3.7-1.9 3.1 0 3.8 2 3.8 4.7V21h-3.6v-6.3c0-1.6-.5-2.7-1.9-2.7-1.1 0-1.8.8-2.1 1.5-.1.3-.1.6-.1 1V21H9V9.2Z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ==================================================================
+     MODALS
+     ================================================================== -->
+<div class="modal" id="modal-1" role="dialog" aria-modal="true" aria-label="Soul Spires: Initium" hidden>
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-panel">
+    <button class="modal-close" type="button" data-close aria-label="Close"><span></span><span></span></button>
+    <iframe data-src="https://www.youtube.com/embed/0ExXmmjxRBg?rel=0&modestbranding=1&playsinline=1" referrerpolicy="strict-origin-when-cross-origin" title="Soul Spires: Initium" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+    <div class="modal-meta">
+      <h3>Soul Spires: Initium</h3>
+      <a href="https://www.soulspires.com/" target="_blank" rel="noopener">Visit project ↗</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-2" role="dialog" aria-modal="true" aria-label="Rogue Slime" hidden>
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-panel">
+    <button class="modal-close" type="button" data-close aria-label="Close"><span></span><span></span></button>
+    <iframe data-src="https://www.youtube.com/embed/03TC8wSO9PU?rel=0&modestbranding=1&playsinline=1" referrerpolicy="strict-origin-when-cross-origin" title="Rogue Slime" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+    <div class="modal-meta">
+      <h3>Rogue Slime</h3>
+      <a href="https://questseeker.games/" target="_blank" rel="noopener">Visit Quest Seeker ↗</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-3" role="dialog" aria-modal="true" aria-label="Don't Lose Aggro" hidden>
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-panel">
+    <button class="modal-close" type="button" data-close aria-label="Close"><span></span><span></span></button>
+    <iframe data-src="https://www.youtube.com/embed/9V5tDmusu08?rel=0&modestbranding=1&playsinline=1" referrerpolicy="strict-origin-when-cross-origin" title="Don't Lose Aggro" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+    <div class="modal-meta">
+      <h3>Don't Lose Aggro</h3>
+      <a href="https://store.steampowered.com/app/3079160/Dont_Lose_Aggro/" target="_blank" rel="noopener">View on Steam ↗</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-4" role="dialog" aria-modal="true" aria-label="Don't Lose Aggro — in-game" hidden>
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-panel">
+    <button class="modal-close" type="button" data-close aria-label="Close"><span></span><span></span></button>
+    <iframe data-src="https://www.youtube.com/embed/ux2sh79JPpc?rel=0&modestbranding=1&playsinline=1" referrerpolicy="strict-origin-when-cross-origin" title="Don't Lose Aggro — in-game" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+    <div class="modal-meta">
+      <h3>Don't Lose Aggro — in-game</h3>
+      <a href="https://store.steampowered.com/app/3079160/Dont_Lose_Aggro/" target="_blank" rel="noopener">View on Steam ↗</a>
+    </div>
+  </div>
+</div>
+
+<script src="js/dra.js" defer></script>
+</body>
 </html>
