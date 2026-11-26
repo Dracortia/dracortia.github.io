@@ -5,21 +5,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Dracortia — Music &amp; Sound Production for Games</title>
-<meta name="description" content="Dracortia is an independent audio studio composing music and designing sound for games — composition, sound design, technical audio and implementation for indie teams.">
+<meta name="description" content="Dracortia is an independent audio studio composing music and designing sound for games — composition, sound design, technical audio and implementation for independent teams.">
 <meta name="author" content="Dracortia">
 <link rel="canonical" href="https://dracortia.com/">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Dracortia">
 <meta property="og:title" content="Dracortia — Music &amp; Sound Production for Games">
-<meta property="og:description" content="Composition, sound design and audio implementation for independent game studios.">
-<meta property="og:image" content="https://dracortia.com/images/logo-lockup.png">
+<meta property="og:description" content="Composition, sound design and audio implementation for independent game studios. Sound with gravity.">
+<meta property="og:image" content="https://dracortia.com/images/og-cover.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Dracortia — sound with gravity">
 <meta property="og:url" content="https://dracortia.com/">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://dracortia.com/images/og-cover.jpg">
 <meta name="theme-color" content="#04060A">
 
 <link rel="icon" href="favicon.png">
+<link rel="preconnect" href="https://i.ytimg.com">
+<link rel="preconnect" href="https://www.youtube.com">
 <link rel="stylesheet" href="css/dra.css">
+
+<script>document.documentElement.classList.add('js');</script>
+<script>try{if(sessionStorage.getItem('drc-booted')==='1')document.documentElement.classList.add('booted')}catch(e){}</script>
 
 <script type="application/ld+json">
 {
@@ -31,6 +41,8 @@
   "email": "dracortia@gmail.com",
   "founder": { "@type": "Person", "name": "Eloy De Cort", "jobTitle": "Technical Audio Designer" },
   "description": "Independent audio studio composing music and designing sound for games.",
+  "knowsAbout": ["Game music composition", "Sound design", "Technical audio design", "Audio implementation"],
+  "areaServed": "Worldwide",
   "sameAs": ["https://x.com/Dracortia", "https://www.linkedin.com/company/dracortia"]
 }
 </script>
@@ -38,109 +50,279 @@
 
 <body>
 
+<div class="boot" id="boot" aria-hidden="true">
+  <div class="boot-inner">
+    <img class="boot-logo" src="images/logo-lockup.png" alt="" width="1372" height="810">
+    <div class="boot-read">
+      <span>DRC // BOOT SEQUENCE</span>
+      <b id="bootLine">MOUNTING ARCHIVE</b>
+      <span>48.0 kHz · 24-bit · stereo</span>
+    </div>
+    <div class="boot-bar"><i></i></div>
+    <span class="boot-skip">Click anywhere to skip</span>
+  </div>
+</div>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
 <div class="grain" aria-hidden="true"></div>
 
-<div class="cursor" id="cursor" aria-hidden="true">
-  <span class="cursor-dot"></span>
-  <span class="cursor-ring"></span>
+<!-- ambient background: grid lens, cursor spotlight, scan, vignette -->
+<div class="fx" aria-hidden="true">
+  <div class="fx-grid"></div>
+  <div class="fx-spot" id="spot"></div>
+  <div class="fx-glow"></div>
+  <div class="fx-scan"></div>
+  <div class="fx-vignette"></div>
 </div>
+
+<!-- fixed HUD frame -->
+<div class="hud-frame" aria-hidden="true">
+  <i class="hc hc-tl"></i><i class="hc hc-tr"></i><i class="hc hc-bl"></i><i class="hc hc-br"></i>
+  <span class="hud-rule hud-rule-t"></span>
+  <span class="hud-rule hud-rule-b"></span>
+</div>
+
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+<div class="cursor" id="cursor" aria-hidden="true">
+  <span class="cursor-ring"></span>
+  <span class="cursor-cross"></span>
+  <span class="cursor-dot"></span>
+  <span class="cursor-label" id="cursorLabel"></span>
+</div>
+
+<!-- decorative symbol library -->
+<svg class="sprite" width="0" height="0" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="deco-rings" viewBox="0 0 400 400">
+      <g fill="none" stroke="currentColor" vector-effect="non-scaling-stroke">
+        <circle cx="200" cy="200" r="196" stroke-width="1" stroke-dasharray="2 9"/>
+        <circle cx="200" cy="200" r="152" stroke-width="1" opacity=".6"/>
+        <circle cx="200" cy="200" r="98" stroke-width="1" stroke-dasharray="1 5" opacity=".8"/>
+        <circle cx="200" cy="200" r="42" stroke-width="1" opacity=".4"/>
+        <path d="M200 4v392M4 200h392" stroke-width="1" opacity=".28"/>
+        <path d="M200 48a152 152 0 0 1 152 152" stroke-width="2.2"/>
+        <path d="M200 352a152 152 0 0 1-152-152" stroke-width="1.4" opacity=".6"/>
+      </g>
+    </symbol>
+    <symbol id="deco-topo" viewBox="0 0 400 400">
+      <g fill="none" stroke="currentColor" vector-effect="non-scaling-stroke">
+        <path d="M196 30c70-14 132 30 166 92 34 62 18 140-30 192-48 52-132 66-196 34-64-32-106-104-96-172 10-68 86-132 156-146Z" stroke-width="1.1"/>
+        <path d="M204 66c58-10 108 26 134 76 26 50 12 116-26 158-38 42-108 54-160 28-52-26-86-84-78-140 8-56 72-112 130-122Z" stroke-width="1" opacity=".75"/>
+        <path d="M212 104c44-8 82 22 102 60 20 38 8 90-22 122-30 32-84 42-124 22-40-20-66-66-60-108 6-44 60-88 104-96Z" stroke-width="1" opacity=".55"/>
+        <path d="M222 142c30-6 56 16 70 42 14 26 6 62-16 84-22 22-58 28-86 14-28-14-46-46-42-76 4-32 44-58 74-64Z" stroke-width="1" opacity=".4"/>
+        <circle cx="200" cy="200" r="6" stroke-width="1.4"/>
+      </g>
+    </symbol>
+    <symbol id="deco-plusgrid" viewBox="0 0 400 400">
+      <g fill="none" stroke="currentColor" vector-effect="non-scaling-stroke">
+        <path d="M40 40h8M44 36v8M120 40h8M124 36v8M200 40h8M204 36v8M280 40h8M284 36v8M360 40h8M364 36v8M40 120h8M44 116v8M120 120h8M124 116v8M200 120h8M204 116v8M280 120h8M284 116v8M360 120h8M364 116v8M40 200h8M44 196v8M120 200h8M124 196v8M280 200h8M284 196v8M360 200h8M364 196v8M40 280h8M44 276v8M120 280h8M124 276v8M200 280h8M204 276v8M280 280h8M284 276v8M360 280h8M364 276v8M40 360h8M44 356v8M120 360h8M124 356v8M200 360h8M204 356v8M280 360h8M284 356v8M360 360h8M364 356v8" stroke-width="1"/>
+        <circle cx="200" cy="200" r="86" stroke-width="1" stroke-dasharray="3 7"/>
+        <circle cx="200" cy="200" r="34" stroke-width="1.2"/>
+        <path d="M200 74v34M200 292v34M74 200h34M292 200h34" stroke-width="1"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
 
 <!-- ==================================================================
      HEADER
      ================================================================== -->
 <header class="site-header" id="header">
   <a class="brand" href="#top" aria-label="Dracortia — home">
-    <img src="images/logo-lockup.png" alt="Dracortia">
+    <img src="images/logo-lockup.png" alt="Dracortia" width="1372" height="810">
+    <span class="brand-sig" aria-hidden="true">DRC—01</span>
   </a>
 
-  <nav class="nav" id="nav" aria-label="Main">
-    <a href="#work">Work</a>
-    <a href="#studio">Studio</a>
-    <a href="#voices">Voices</a>
-    <a href="#contact">Contact</a>
+  <nav class="nav" id="nav" aria-label="Main" tabindex="-1">
+    <a href="#work"><i>01</i>Work</a>
+    <a href="#studio"><i>02</i>Studio</a>
+    <a href="#voices"><i>03</i>Voices</a>
+    <a href="#contact"><i>04</i>Contact</a>
+    <div class="nav-meta" aria-hidden="true">
+      <span>51.2562° N&nbsp;&nbsp;7.1508° E</span>
+      <span>Open for 2026 projects</span>
+    </div>
   </nav>
 
   <div class="header-actions">
+    <button class="sfx" id="sfxToggle" type="button" aria-pressed="false" aria-label="Toggle interface sound" title="Interface sound">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 9.5v5h3.5L13 19V5L7.5 9.5H4Z"/>
+        <path d="M16.5 8.8a4.6 4.6 0 0 1 0 6.4M19 6.3a8 8 0 0 1 0 11.4" class="sfx-wave"/>
+      </svg>
+      <span>SFX</span>
+      <i class="sfx-dot" aria-hidden="true"></i>
+    </button>
+
     <a class="btn btn-primary btn-sm magnetic" href="#contact">
       Start a project
       <svg class="arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>
+
     <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="nav" aria-label="Open menu">
       <span></span><span></span>
     </button>
   </div>
 </header>
 
-<main>
+<!-- section progress rail -->
+<nav class="rail" id="rail" aria-label="Section progress">
+  <span class="rail-line" aria-hidden="true"></span>
+  <a href="#top" data-rail="top"><i>00</i><span>Intro</span></a>
+  <a href="#work" data-rail="work"><i>01</i><span>Work</span></a>
+  <a href="#studio" data-rail="studio"><i>02</i><span>Studio</span></a>
+  <a href="#voices" data-rail="voices"><i>03</i><span>Voices</span></a>
+  <a href="#contact" data-rail="contact"><i>04</i><span>Contact</span></a>
+</nav>
+
+<main id="main">
 
 <!-- ==================================================================
      HERO
      ================================================================== -->
 <section class="hero" id="top">
 
-  <canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
-
-  <div class="hero-scrim" aria-hidden="true"></div>
+  <canvas class="hero-field" id="field" aria-hidden="true"></canvas>
   <div class="hero-grid" aria-hidden="true"></div>
-  <div class="hero-marks" aria-hidden="true"></div>
+  <div class="hero-scrim" aria-hidden="true"></div>
 
-  <canvas class="spectrum" id="spectrum" aria-hidden="true"></canvas>
+  <div class="hero-hud" aria-hidden="true">
+    <div class="hud-block hud-tl">
+      <span>DRC // AUDIO SYSTEMS</span>
+      <span>51.2562° N&nbsp;&nbsp;7.1508° E</span>
+    </div>
+    <div class="hud-block hud-tr">
+      <span>SESSION <b>001</b></span>
+      <span>LOCAL <b data-clock>--:--</b> CET</span>
+    </div>
+    <div class="hud-side">SOUND DESIGN — SCORE — IMPLEMENTATION</div>
+  </div>
 
   <div class="wrap hero-inner">
-    <p class="hero-eyebrow"><span class="pulse" aria-hidden="true"></span>Independent audio studio · est. 2023</p>
 
-    <h1 class="hero-title">
-      <span class="line">Sound with</span>
-      <span class="line">gravity.</span>
-    </h1>
+    <div class="hero-copy">
+      <p class="hero-eyebrow">
+        <span class="pulse" aria-hidden="true"></span>
+        <span>Independent audio studio</span>
+        <span class="eb-sep" aria-hidden="true">·</span>
+        <span>Wuppertal, DE</span>
+        <span class="eb-sep eb-est" aria-hidden="true">·</span>
+        <span class="eb-est">est. 2023</span>
+      </p>
 
-    <p class="hero-sub">
-      Dracortia composes music and builds sound for games — from the first sketch of a theme to the last
-      mix that ships. <strong>Composition, sound design and the technical work underneath.</strong>
-    </p>
+      <h1 class="hero-title">
+        <span class="line"><span>Sound with</span></span>
+        <span class="line"><span>gravity<i class="dot">.</i></span></span>
+      </h1>
 
-    <div class="hero-cta">
-      <a class="btn btn-primary btn-lg magnetic" href="#work">
-        Hear the work
-        <svg class="arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-      <a class="btn btn-ghost btn-lg" href="#contact">Start a project</a>
+      <p class="hero-sub">
+        Dracortia composes music and builds sound for games — from the first sketch of a theme to the last
+        mix that ships. <strong>Composition, sound design and the technical work underneath.</strong>
+      </p>
+
+      <div class="hero-cta">
+        <a class="btn btn-primary btn-lg magnetic" href="#work" data-cursor="VIEW">
+          Hear the work
+          <svg class="arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a class="btn btn-ghost btn-lg" href="#contact">Start a project</a>
+      </div>
+
+      <p class="hero-note" aria-hidden="true">
+        <span>◈</span> Reel-ready in 48 kHz · stereo · mastered
+      </p>
     </div>
+
+    <!-- audio core -->
+    <div class="core" id="core" aria-hidden="true">
+      <span class="core-glow"></span>
+
+      <svg class="core-svg" viewBox="0 0 520 520">
+        <defs>
+          <path id="coreCirc" d="M260 260 m-236 0 a236 236 0 1 1 472 0 a236 236 0 1 1 -472 0"/>
+          <linearGradient id="coreArcGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#FFE6B4" stop-opacity=".95"/>
+            <stop offset="1" stop-color="#B8934A" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+
+        <g class="core-spin">
+          <circle cx="260" cy="260" r="250" class="c-dash c-dash-a"/>
+          <circle cx="260" cy="260" r="214" class="c-dash c-dash-b"/>
+          <path d="M260 10A250 250 0 0 1 510 260" class="c-arc-strong"/>
+          <path d="M10 260A250 250 0 0 0 260 510" class="c-arc-soft"/>
+        </g>
+
+        <circle cx="260" cy="260" r="178" class="c-ring"/>
+        <circle cx="260" cy="260" r="180" class="c-ring c-ring-dash"/>
+
+        <g class="core-words-spin">
+          <text class="core-words">
+            <textPath href="#coreCirc" startOffset="0">DRACORTIA · SOUND SYSTEMS · COMPOSE · DESIGN · IMPLEMENT · MIX · </textPath>
+          </text>
+        </g>
+      </svg>
+
+      <canvas class="core-spectrum" id="coreSpectrum" aria-hidden="true"></canvas>
+
+      <div class="core-emblem"></div>
+
+      <div class="core-center">
+        <span class="core-k">SIGNAL CORE</span>
+        <b class="core-num">48.0</b>
+        <span class="core-u">kHz &nbsp;/&nbsp; 24-bit</span>
+        <div class="core-level">
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        </div>
+      </div>
+
+      <span class="core-tag core-tag-in">INPUT</span>
+      <span class="core-tag core-tag-out">OUT</span>
+
+      <span class="core-orbit"><i></i></span>
+    </div>
+
   </div>
 
-  <div class="hero-foot">
-    <div class="hero-stats">
-      <div class="hero-stat"><b data-count="5">5</b><span>Game titles</span></div>
-      <div class="hero-stat"><b data-count="4">4</b><span>Studio clients</span></div>
-      <div class="hero-stat"><b>2</b><span>In-house engines</span></div>
-    </div>
+  <div class="hero-console">
+    <div class="wrap console-inner">
+      <div class="hero-stats">
+        <div class="hero-stat"><b data-count="5">05</b><span>Game titles</span></div>
+        <div class="hero-stat"><b data-count="4">04</b><span>Studio clients</span></div>
+        <div class="hero-stat"><b data-count="2">02</b><span>In-house engines</span></div>
+      </div>
 
-    <div class="hero-social">
-      <a href="mailto:dracortia@gmail.com" aria-label="Email Dracortia">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3.5 6 8.5 6.5L20.5 6"/></svg>
-      </a>
-      <a href="https://x.com/Dracortia" target="_blank" rel="noopener" aria-label="Dracortia on X">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.6 3h3.3l-7.2 8.2L22 21h-6.4l-5-6.2L4.8 21H1.5l7.7-8.8L1.7 3h6.6l4.5 5.7L17.6 3Zm-1.1 16h1.8L7.1 4.8H5.2L16.5 19Z"/></svg>
-      </a>
-      <a href="https://www.linkedin.com/company/dracortia" target="_blank" rel="noopener" aria-label="Dracortia on LinkedIn">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.8 3.2a2.2 2.2 0 1 0 0 4.4 2.2 2.2 0 0 0 0-4.4ZM3 9.2h3.6V21H3V9.2Zm6 0h3.4v1.6h.1c.7-1.1 1.9-1.9 3.7-1.9 3.1 0 3.8 2 3.8 4.7V21h-3.6v-6.3c0-1.6-.5-2.7-1.9-2.7-1.1 0-1.8.8-2.1 1.5-.1.3-.1.6-.1 1V21H9V9.2Z"/></svg>
-      </a>
+      <div class="hero-meter" aria-hidden="true">
+        <span class="meter-k">MASTER</span>
+        <div class="meter-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <span class="meter-db">−6 dB</span>
+      </div>
+
+      <div class="hero-console-right">
+        <button class="audition" id="audition" type="button">
+          <span class="audition-ico" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          Audition the reel
+        </button>
+        <a class="scroll-cue" href="#work" aria-label="Scroll to work">
+          <span>SCROLL</span><i aria-hidden="true"></i>
+        </a>
+      </div>
     </div>
   </div>
-
-  <div class="scroll-cue" aria-hidden="true"><span></span></div>
 </section>
 
 <!-- ==================================================================
-     MARQUEE
+     TICKER
      ================================================================== -->
-<div class="marquee" aria-hidden="true">
-  <div class="marquee-track">
-    <div class="marquee-group">
-      <span>Composition</span><span>Sound design</span><span>Audio implementation</span><span>Technical audio</span><span>Mixing</span><span>Audio programming</span>
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <div class="ticker-group">
+      <span>Composition</span><i>◆</i><span>Sound design</span><i>◆</i><span>Audio implementation</span><i>◆</i><span>Technical audio</span><i>◆</i><span>Mixing</span><i>◆</i><span>Audio programming</span><i>◆</i><span>Adaptive systems</span><i>◆</i>
     </div>
-    <div class="marquee-group">
-      <span>Composition</span><span>Sound design</span><span>Audio implementation</span><span>Technical audio</span><span>Mixing</span><span>Audio programming</span>
+    <div class="ticker-group">
+      <span>Composition</span><i>◆</i><span>Sound design</span><i>◆</i><span>Audio implementation</span><i>◆</i><span>Technical audio</span><i>◆</i><span>Mixing</span><i>◆</i><span>Audio programming</span><i>◆</i><span>Adaptive systems</span><i>◆</i>
     </div>
   </div>
 </div>
@@ -148,75 +330,88 @@
 <!-- ==================================================================
      WORK
      ================================================================== -->
-<section class="section" id="work">
-  <div class="disc disc-work" aria-hidden="true">
-    <svg viewBox="0 0 400 400" fill="none" stroke="currentColor" stroke-linecap="round">
-      <circle cx="200" cy="200" r="196" stroke-width="1.1" stroke-dasharray="2 9"/>
-      <circle cx="200" cy="200" r="150" stroke-width="1" opacity=".55"/>
-      <circle cx="200" cy="200" r="96" stroke-width="1" stroke-dasharray="1 5" opacity=".8"/>
-      <path d="M200 50 A150 150 0 0 1 350 200" stroke-width="2.2" opacity=".8"/>
-    </svg>
-  </div>
+<section class="section work" id="work">
+  <svg class="deco deco-work" viewBox="0 0 400 400" aria-hidden="true"><use href="#deco-rings"/></svg>
+  <span class="ghost-num" aria-hidden="true">01</span>
 
   <div class="wrap">
-    <div class="sec-head reveal">
-      <p class="sec-kicker"><span class="idx">01</span>Client work</p>
+    <header class="sec-head reveal">
+      <p class="sec-kicker"><span class="idx">01</span>Archive</p>
       <h2 class="sec-title" data-scramble>Games we lent our ears to.</h2>
-      <p class="sec-lede">Music and sound for independent studios — scored, designed and implemented. Press any card to watch it move.</p>
-    </div>
+      <p class="sec-lede">Music and sound for independent studios — scored, designed and implemented. Open a dossier to hear it in context.</p>
+    </header>
 
     <div class="work-grid">
-      <article class="card reveal" data-modal="modal-1">
+
+      <article class="card card-a tilt reveal" role="button" tabindex="0" data-modal="m-soulspires" data-cursor="OPEN" aria-haspopup="dialog" aria-label="Open the Soul Spires: Initium dossier">
         <div class="card-media">
-          <img src="https://i.ytimg.com/vi/0ExXmmjxRBg/hqdefault.jpg" alt="Soul Spires: Initium" loading="lazy" onerror="this.style.display='none'">
+          <img src="https://i.ytimg.com/vi/0ExXmmjxRBg/hqdefault.jpg" alt="Soul Spires: Initium reveal still" width="480" height="360" loading="lazy" onerror="this.style.display='none'">
+          <span class="card-shade" aria-hidden="true"></span>
+          <span class="card-scan" aria-hidden="true"></span>
+          <span class="card-idx" aria-hidden="true">A—01</span>
           <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
         </div>
         <div class="card-body">
           <p class="card-meta">Square Table Games</p>
           <h3 class="card-title">Soul Spires: Initium</h3>
           <p class="card-sub">Original music and sound design for the reveal.</p>
-          <span class="card-more">Watch <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <div class="card-tags"><span>Score</span><span>Sound design</span></div>
+          <span class="card-wave" aria-hidden="true"></span>
+          <span class="card-more">Open dossier <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         </div>
+        <span class="card-corners" aria-hidden="true"></span>
       </article>
 
-      <article class="card reveal" data-modal="modal-2">
+      <article class="card card-b tilt reveal" role="button" tabindex="0" data-modal="m-rogue" data-cursor="OPEN" aria-haspopup="dialog" aria-label="Open the Rogue Slime dossier">
         <div class="card-media">
-          <img src="https://i.ytimg.com/vi/03TC8wSO9PU/hqdefault.jpg" alt="Quest Seeker Games" loading="lazy" onerror="this.style.display='none'">
+          <img src="https://i.ytimg.com/vi/03TC8wSO9PU/hqdefault.jpg" alt="Rogue Slime still" width="480" height="360" loading="lazy" onerror="this.style.display='none'">
+          <span class="card-shade" aria-hidden="true"></span>
+          <span class="card-scan" aria-hidden="true"></span>
+          <span class="card-idx" aria-hidden="true">A—02</span>
           <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
         </div>
         <div class="card-body">
           <p class="card-meta">Quest Seeker Games</p>
           <h3 class="card-title">Rogue Slime</h3>
           <p class="card-sub">An original piece written for the studio.</p>
-          <span class="card-more">Watch <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <div class="card-tags"><span>Score</span><span>Original cue</span></div>
+          <span class="card-wave" aria-hidden="true"></span>
+          <span class="card-more">Open dossier <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         </div>
+        <span class="card-corners" aria-hidden="true"></span>
       </article>
 
-      <article class="card reveal" data-modal="modal-3">
-        <div class="card-media">
-          <img src="https://i.ytimg.com/vi/9V5tDmusu08/hqdefault.jpg" alt="Don't Lose Aggro" loading="lazy" onerror="this.style.display='none'">
+      <!-- one entry, both cuts: trailer + in-game -->
+      <article class="card card-c card-feature tilt reveal" role="button" tabindex="0" data-modal="m-dla" data-cursor="OPEN" aria-haspopup="dialog" aria-label="Open the Don't Lose Aggro dossier">
+        <div class="card-media card-media-split">
+          <figure class="shot">
+            <img src="https://i.ytimg.com/vi/9V5tDmusu08/hqdefault.jpg" alt="Don't Lose Aggro trailer still" width="480" height="360" loading="lazy" onerror="this.style.display='none'">
+            <figcaption><span>01</span>Trailer</figcaption>
+          </figure>
+          <figure class="shot">
+            <img src="https://i.ytimg.com/vi/ux2sh79JPpc/hq2.jpg" alt="Don't Lose Aggro in-game menu still" width="480" height="360" loading="lazy" onerror="this.style.display='none'">
+            <figcaption><span>02</span>In-game</figcaption>
+          </figure>
+          <span class="card-shade" aria-hidden="true"></span>
+          <span class="card-scan" aria-hidden="true"></span>
+          <span class="card-idx" aria-hidden="true">A—03</span>
           <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
         </div>
-        <div class="card-body">
-          <p class="card-meta">Don't Lose Aggro</p>
-          <h3 class="card-title">Don't Lose Aggro</h3>
-          <p class="card-sub">Music and audio for the action RPG.</p>
-          <span class="card-more">Watch <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div class="card-body card-body-split">
+          <div>
+            <p class="card-meta">Action RPG · Original score &amp; sound design</p>
+            <h3 class="card-title">Don't Lose Aggro</h3>
+            <p class="card-sub">Music, sound design and the in-game mix — one project, two cuts.</p>
+          </div>
+          <div class="card-side">
+            <span class="card-wave" aria-hidden="true"></span>
+            <div class="card-tags"><span>Score</span><span>Sound design</span><span>Implementation</span></div>
+            <span class="card-more">Open dossier <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </div>
         </div>
+        <span class="card-corners" aria-hidden="true"></span>
       </article>
 
-      <article class="card reveal" data-modal="modal-4">
-        <div class="card-media">
-          <img src="https://i.ytimg.com/vi/ux2sh79JPpc/hqdefault.jpg" alt="Don't Lose Aggro" loading="lazy" onerror="this.style.display='none'">
-          <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
-        </div>
-        <div class="card-body">
-          <p class="card-meta">Don't Lose Aggro · in-game</p>
-          <h3 class="card-title">Don't Lose Aggro</h3>
-          <p class="card-sub">Sound design and mix in context.</p>
-          <span class="card-more">Watch <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        </div>
-      </article>
     </div>
   </div>
 </section>
@@ -224,30 +419,45 @@
 <!-- ==================================================================
      STUDIO
      ================================================================== -->
-<section class="section" id="studio">
-  <div class="disc disc-studio" aria-hidden="true">
-    <svg viewBox="0 0 400 400" fill="none" stroke="currentColor" stroke-linecap="round">
-      <path d="M20 380 A360 360 0 0 1 380 20" stroke-width="1.1" opacity=".5"/>
-      <path d="M70 380 A310 310 0 0 1 380 70" stroke-width="1.1" opacity=".65"/>
-      <path d="M120 380 A260 260 0 0 1 380 120" stroke-width="2" opacity=".85"/>
-    </svg>
-  </div>
+<section class="section studio" id="studio">
+  <span class="studio-emblem" aria-hidden="true"></span>
+  <svg class="deco deco-studio" viewBox="0 0 400 400" aria-hidden="true"><use href="#deco-plusgrid"/></svg>
 
   <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="sec-kicker"><span class="idx">02</span>The studio</p>
+      <h2 class="sec-title" data-scramble>One pair of hands, from sketch to master.</h2>
+    </header>
+
     <div class="studio-grid">
+
       <div class="portrait reveal">
-        <div class="portrait-frame">
-          <img src="images/founder.jpg" alt="Eloy De Cort, founder of Dracortia" width="760" height="760">
+        <div class="portrait-orb">
+          <span class="orb-ring" aria-hidden="true"></span>
+          <span class="orb-ticks" aria-hidden="true"></span>
+          <div class="portrait-frame">
+            <img src="images/founder.jpg" alt="Eloy De Cort, founder of Dracortia" width="760" height="760">
+            <span class="portrait-duotone" aria-hidden="true"></span>
+            <span class="portrait-scan" aria-hidden="true"></span>
+          </div>
+          <span class="orb-sat" aria-hidden="true"></span>
+          <span class="orb-cross" aria-hidden="true"></span>
         </div>
-        <p class="portrait-cap"><b>Eloy De Cort</b>Founder · composer &amp; technical audio</p>
+
+        <div class="portrait-id">
+          <p class="pid-k">OPERATOR / 01</p>
+          <p class="pid-n">Eloy De Cort</p>
+          <p class="pid-r">Founder · composer &amp; technical audio</p>
+        </div>
+
+        <dl class="portrait-data">
+          <div><dt>Base</dt><dd>Wuppertal, DE</dd></div>
+          <div><dt>Focus</dt><dd>Games · interactive</dd></div>
+          <div><dt>Status</dt><dd class="is-open">Open for projects</dd></div>
+        </dl>
       </div>
 
       <div class="prose">
-        <div class="sec-head reveal" style="margin-bottom:3rem">
-          <p class="sec-kicker"><span class="idx">02</span>The studio</p>
-          <h2 class="sec-title" data-scramble>One pair of hands, from sketch to master.</h2>
-        </div>
-
         <div class="reveal">
           <p class="lead">Dracortia was born from a straightforward notion — sharing a passion and a skill set with a broader audience.</p>
           <p>Across my professional work I've cultivated composition and programming side by side, and the studio is where those two meet. Composition that knows what an engine can do; implementation that respects the music.</p>
@@ -255,14 +465,99 @@
         </div>
 
         <div class="services reveal">
-          <div class="service"><i>01</i>Composing &amp; arrangement</div>
-          <div class="service"><i>02</i>Mixing &amp; mastering</div>
-          <div class="service"><i>03</i>Technical audio design</div>
-          <div class="service"><i>04</i>Audio design</div>
-          <div class="service"><i>05</i>Audio programming</div>
-          <div class="service"><i>06</i>Advice &amp; lessons</div>
-          <div class="service"><i>07</i>Royalty-free music</div>
-          <div class="service"><i>08</i>Sound implementation</div>
+          <div class="service"><i>01</i><span>Composing &amp; arrangement</span><b aria-hidden="true"></b></div>
+          <div class="service"><i>02</i><span>Mixing &amp; mastering</span><b aria-hidden="true"></b></div>
+          <div class="service"><i>03</i><span>Technical audio design</span><b aria-hidden="true"></b></div>
+          <div class="service"><i>04</i><span>Audio design</span><b aria-hidden="true"></b></div>
+          <div class="service"><i>05</i><span>Audio programming</span><b aria-hidden="true"></b></div>
+          <div class="service"><i>06</i><span>Advice &amp; lessons</span><b aria-hidden="true"></b></div>
+          <div class="service"><i>07</i><span>Royalty-free music</span><b aria-hidden="true"></b></div>
+          <div class="service"><i>08</i><span>Sound implementation</span><b aria-hidden="true"></b></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chain reveal" aria-labelledby="chainTitle">
+      <div class="chain-head">
+        <p class="chain-k" id="chainTitle">Signal chain</p>
+        <p class="chain-note">From a blank page to a shipping build — the same pair of hands at every stage.</p>
+      </div>
+      <div class="chain-nodes" role="list">
+        <span class="chain-pulse" aria-hidden="true"></span>
+        <div class="chain-node" role="listitem">
+          <span class="chain-dot" aria-hidden="true"></span>
+          <span class="chain-idx">01</span>
+          <h3>Compose</h3>
+          <p>Theme, arrangement, orchestration</p>
+        </div>
+        <div class="chain-node" role="listitem">
+          <span class="chain-dot" aria-hidden="true"></span>
+          <span class="chain-idx">02</span>
+          <h3>Design</h3>
+          <p>Foley, systems, adaptive layers</p>
+        </div>
+        <div class="chain-node" role="listitem">
+          <span class="chain-dot" aria-hidden="true"></span>
+          <span class="chain-idx">03</span>
+          <h3>Implement</h3>
+          <p>Engine, middleware, parameters</p>
+        </div>
+        <div class="chain-node" role="listitem">
+          <span class="chain-dot" aria-hidden="true"></span>
+          <span class="chain-idx">04</span>
+          <h3>Mix</h3>
+          <p>Balance, loudness, delivery</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="lab reveal" id="lab">
+      <div class="lab-head">
+        <div>
+          <p class="chain-k"><span class="lab-dot" aria-hidden="true"></span>Signal lab</p>
+          <h3 class="lab-title">Play the system.</h3>
+        </div>
+        <p class="chain-note">A playable slice of the rig — 16 pads, a filter, echo and a generated sequence. Every sound is synthesised live in this browser, no samples.</p>
+      </div>
+
+      <div class="lab-body">
+        <div class="lab-pads" id="labPads" role="group" aria-label="Playable synthesizer pads">
+          <noscript>The signal lab needs JavaScript.</noscript>
+        </div>
+
+        <div class="lab-side">
+          <div class="lab-scope">
+            <canvas id="labScope" aria-hidden="true"></canvas>
+            <span class="lab-scope-k">OUTPUT <b id="labLevel">−∞ dB</b></span>
+            <span class="lab-scope-l" aria-hidden="true">SCOPE / 48 kHz</span>
+          </div>
+
+          <div class="lab-controls">
+            <button class="lab-run" id="labRun" type="button" aria-pressed="false">
+              <i aria-hidden="true"></i>
+              <span>Run sequence</span>
+            </button>
+
+            <label class="lab-slider" for="labTempo">
+              <span>Tempo</span>
+              <input id="labTempo" type="range" min="60" max="140" step="1" value="96">
+              <b id="labTempoV">96</b>
+            </label>
+
+            <label class="lab-slider" for="labFilter">
+              <span>Filter</span>
+              <input id="labFilter" type="range" min="400" max="9000" step="50" value="3200">
+              <b id="labFilterV">3.2k</b>
+            </label>
+
+            <label class="lab-slider" for="labEcho">
+              <span>Echo</span>
+              <input id="labEcho" type="range" min="0" max="100" step="1" value="35">
+              <b id="labEchoV">35</b>
+            </label>
+          </div>
+
+          <p class="lab-hint">Click a pad. Run the sequence. The core is listening.</p>
         </div>
       </div>
     </div>
@@ -272,126 +567,146 @@
 <!-- ==================================================================
      VOICES
      ================================================================== -->
-<section class="section" id="voices">
-  <div class="disc disc-voices" aria-hidden="true">
-    <svg viewBox="0 0 400 400" fill="none" stroke="currentColor" stroke-linecap="round">
-      <circle cx="200" cy="200" r="190" stroke-width="1" stroke-dasharray="2 10" opacity=".65"/>
-      <circle cx="200" cy="200" r="142" stroke-width="1" stroke-dasharray="1 6" opacity=".55"/>
-      <path d="M200 10 A190 190 0 0 1 390 200" stroke-width="2.4" opacity=".8"/>
-    </svg>
-  </div>
+<section class="section voices" id="voices">
+  <svg class="deco deco-voices" viewBox="0 0 400 400" aria-hidden="true"><use href="#deco-topo"/></svg>
 
   <div class="wrap">
-    <div class="sec-head reveal">
-      <p class="sec-kicker"><span class="idx">03</span>Voices</p>
+    <header class="sec-head reveal">
+      <p class="sec-kicker"><span class="idx">03</span>Transmissions</p>
       <h2 class="sec-title" data-scramble>What the teams say.</h2>
-    </div>
+    </header>
 
-    <div class="slider reveal" id="slider">
-      <div class="slide is-active">
-        <p class="quote-mark" aria-hidden="true">“</p>
-        <p class="quote">From the start Eloy has been an absolute pleasure to work with. He has been incredibly responsive and professional as well as incredibly talented — <b>exceeding our expectations and delivering us stunning compositions and sounds for our indie game</b>, making sure to work with us every step of the way.</p>
-        <div class="byline">
-          <img src="images/SoulSpires.png" alt="">
-          <div><strong>Soul Spires: Initium</strong><span>Square Table Games</span></div>
+    <div class="slider reveal" id="slider" aria-roledescription="carousel" aria-label="Client quotes">
+
+      <div class="slides" aria-live="polite">
+        <figure class="slide is-active">
+          <p class="quote-mark" aria-hidden="true">“</p>
+          <blockquote class="quote">From the start Eloy has been an absolute pleasure to work with. He has been incredibly responsive and professional as well as incredibly talented — <b>exceeding our expectations and delivering us stunning compositions and sounds for our indie game</b>, making sure to work with us every step of the way.</blockquote>
+          <figcaption class="byline">
+            <img src="images/SoulSpires.png" alt="" width="512" height="512" loading="lazy">
+            <span><strong>Soul Spires: Initium</strong><span>Square Table Games</span></span>
+          </figcaption>
+        </figure>
+
+        <figure class="slide">
+          <p class="quote-mark" aria-hidden="true">“</p>
+          <blockquote class="quote">Thanks to Dracortia for this beautiful piece. It's been a pleasure working with Eloy.</blockquote>
+          <figcaption class="byline">
+            <img src="images/QuestSeeker.jpg" alt="" width="400" height="400" loading="lazy">
+            <span><strong>Quest Seeker Games</strong><span>Game studio</span></span>
+          </figcaption>
+        </figure>
+
+        <figure class="slide">
+          <p class="quote-mark" aria-hidden="true">“</p>
+          <blockquote class="quote">Dracortia is a <b>very talented and reliable</b> composer and delivered <b>9 magical masterpieces in 9 days</b>. If you find yourself thinking twice about who to work with, look no further.</blockquote>
+          <figcaption class="byline">
+            <img src="images/gwj.png" alt="" width="400" height="400" loading="lazy">
+            <span><strong>Sevadusk</strong><span>Composer collaboration</span></span>
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="slider-side">
+        <div class="slider-index" role="group" aria-label="Choose a quote">
+          <button type="button" aria-current="true" data-slide="0"><span>01</span>Soul Spires</button>
+          <button type="button" aria-current="false" data-slide="1"><span>02</span>Quest Seeker</button>
+          <button type="button" aria-current="false" data-slide="2"><span>03</span>Sevadusk</button>
         </div>
-      </div>
 
-      <div class="slide">
-        <p class="quote-mark" aria-hidden="true">“</p>
-        <p class="quote"><b>Dracortia understands what it means to work on an indie game.</b> Iterating with Eloy is an immense pleasure that yields <b>fantastic results</b> — both for composition and sound design he has proven to be a perfect fit for the project.</p>
-        <div class="byline">
-          <img src="images/DLA.jpg" alt="">
-          <div><strong>Don't Lose Aggro</strong><span>Game studio</span></div>
+        <div class="slider-nav">
+          <button type="button" id="prev" aria-label="Previous quote">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button type="button" id="next" aria-label="Next quote">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <span class="slider-count"><b id="slideNow">01</b> / 03</span>
         </div>
+
+        <div class="slider-progress" aria-hidden="true"><i id="slideProgress"></i></div>
       </div>
 
-      <div class="slide">
-        <p class="quote-mark" aria-hidden="true">“</p>
-        <p class="quote">Thanks to Dracortia for this beautiful piece. It's been a pleasure working with Eloy.</p>
-        <div class="byline">
-          <img src="images/QuestSeeker.jpg" alt="">
-          <div><strong>Quest Seeker Games</strong><span>Game studio</span></div>
-        </div>
-      </div>
-
-      <div class="slide">
-        <p class="quote-mark" aria-hidden="true">“</p>
-        <p class="quote">Dracortia is a <b>very talented and reliable</b> composer and delivered <b>9 magical masterpieces in 9 days</b>. If you find yourself thinking twice about who to work with, look no further.</p>
-        <div class="byline">
-          <img src="images/gwj.png" alt="">
-          <div><strong>Sevadusk</strong><span>Composer collaboration</span></div>
-        </div>
-      </div>
-
-      <div class="slider-nav">
-        <button type="button" id="prev" aria-label="Previous quote">
-          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <button type="button" id="next" aria-label="Next quote">
-          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <span class="slider-count"><b id="slideNow">01</b> / 04</span>
-      </div>
     </div>
   </div>
+
+  <div class="voice-wave" aria-hidden="true"></div>
 </section>
 
 <!-- ==================================================================
      CONTACT
      ================================================================== -->
 <section class="section contact" id="contact">
+  <svg class="deco deco-contact" viewBox="0 0 400 400" aria-hidden="true"><use href="#deco-rings"/></svg>
+
   <div class="wrap">
-    <div class="sec-head reveal">
-      <p class="sec-kicker"><span class="idx">04</span>Contact</p>
+    <header class="sec-head reveal">
+      <p class="sec-kicker"><span class="idx">04</span>Open channel</p>
       <h2 class="sec-title" data-scramble>Tell us what you're making.</h2>
       <p class="sec-lede">A pitch, a prototype, a half-finished theme — send it over. Replies usually within a day.</p>
-    </div>
+    </header>
 
     <div class="contact-grid">
-      <form class="reveal" action="https://formsubmit.co/512835a4280f69f0842263082752156c" method="POST">
+      <form class="contact-form reveal" action="https://formsubmit.co/512835a4280f69f0842263082752156c" method="POST">
+        <span class="form-corners" aria-hidden="true"></span>
+
         <div class="form-row">
           <div class="field">
-            <label for="fname">First name</label>
-            <input type="text" id="fname" name="fname" required>
+            <label for="fname">First name <i>01</i></label>
+            <input type="text" id="fname" name="fname" autocomplete="given-name" required>
           </div>
           <div class="field">
-            <label for="lname">Last name</label>
-            <input type="text" id="lname" name="lname">
+            <label for="lname">Last name <i>02</i></label>
+            <input type="text" id="lname" name="lname" autocomplete="family-name">
           </div>
         </div>
+
         <div class="field">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" required>
+          <label for="email">Email <i>03</i></label>
+          <input type="email" id="email" name="email" autocomplete="email" required>
         </div>
+
         <div class="field">
-          <label for="subject">Subject</label>
+          <label for="subject">Subject <i>04</i></label>
           <input type="text" id="subject" name="subject">
         </div>
+
         <div class="field">
-          <label for="message">Message</label>
-          <textarea id="message" name="message" rows="7" required></textarea>
+          <label for="message">Message <i>05</i></label>
+          <textarea id="message" name="message" rows="6" required></textarea>
         </div>
-        <button type="submit" class="btn btn-primary btn-lg magnetic">
-          Send message
-          <svg class="arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
+
+        <div class="form-foot">
+          <button type="submit" class="btn btn-primary btn-lg magnetic" data-cursor="SEND">
+            Transmit
+            <svg class="arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <span class="form-note">Encrypted in transit · no lists, no spam</span>
+        </div>
+
         <input type="hidden" name="_subject" value="New enquiry from dracortia.com">
-        <input type="text" name="_honey" style="display:none">
+        <input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off" aria-hidden="true">
       </form>
 
       <aside class="contact-aside reveal">
         <div class="contact-card">
-          <h3>Direct</h3>
+          <p class="cc-k">Direct</p>
           <a class="line" href="mailto:dracortia@gmail.com">dracortia@gmail.com</a>
           <a class="line" href="https://x.com/Dracortia" target="_blank" rel="noopener">x.com/Dracortia</a>
           <a class="line" href="https://www.linkedin.com/company/dracortia" target="_blank" rel="noopener">linkedin.com/company/dracortia</a>
         </div>
+
         <div class="contact-card">
-          <h3>Studio</h3>
+          <p class="cc-k">Studio</p>
           <p class="line">Wuppertal, Germany</p>
-          <p class="line">CET / UTC+1</p>
+          <p class="line">CET / UTC+1 · <b data-clock>--:--</b> local</p>
           <p class="line">Working with teams worldwide</p>
+        </div>
+
+        <div class="contact-card cc-status">
+          <p class="cc-k">Availability</p>
+          <p class="status-line"><span class="status-dot" aria-hidden="true"></span> Open for 2026 projects</p>
+          <p class="line">Typical reply: under 24 hours</p>
         </div>
       </aside>
     </div>
@@ -406,15 +721,30 @@
 <footer class="footer">
   <div class="wrap">
     <div class="footer-top">
-      <img src="images/logo-lockup.png" alt="Dracortia">
-      <p class="footer-note">Music &amp; sound production for games</p>
+      <div class="foot-brand">
+        <img src="images/logo-lockup.png" alt="Dracortia" width="1372" height="810" loading="lazy">
+        <p>Music &amp; sound production for games</p>
+      </div>
+
+      <nav class="foot-nav" aria-label="Footer">
+        <a href="#work">Work</a>
+        <a href="#studio">Studio</a>
+        <a href="#voices">Voices</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="foot-osc" aria-hidden="true">
+        <span class="foot-osc-k">DRC—01 / OUTPUT</span>
+        <div class="foot-osc-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
     </div>
+
     <div class="footer-bottom">
       <span>© <span data-year>2026</span> Dracortia — all rights reserved.</span>
       <div class="footer-social">
-        <a href="mailto:dracortia@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3.5 6 8.5 6.5L20.5 6"/></svg></a>
-        <a href="https://x.com/Dracortia" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.6 3h3.3l-7.2 8.2L22 21h-6.4l-5-6.2L4.8 21H1.5l7.7-8.8L1.7 3h6.6l4.5 5.7L17.6 3Zm-1.1 16h1.8L7.1 4.8H5.2L16.5 19Z"/></svg></a>
-        <a href="https://www.linkedin.com/company/dracortia" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.8 3.2a2.2 2.2 0 1 0 0 4.4 2.2 2.2 0 0 0 0-4.4ZM3 9.2h3.6V21H3V9.2Zm6 0h3.4v1.6h.1c.7-1.1 1.9-1.9 3.7-1.9 3.1 0 3.8 2 3.8 4.7V21h-3.6v-6.3c0-1.6-.5-2.7-1.9-2.7-1.1 0-1.8.8-2.1 1.5-.1.3-.1.6-.1 1V21H9V9.2Z"/></svg></a>
+        <a href="mailto:dracortia@gmail.com" aria-label="Email Dracortia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3.5 6 8.5 6.5L20.5 6"/></svg></a>
+        <a href="https://x.com/Dracortia" target="_blank" rel="noopener" aria-label="Dracortia on X"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.6 3h3.3l-7.2 8.2L22 21h-6.4l-5-6.2L4.8 21H1.5l7.7-8.8L1.7 3h6.6l4.5 5.7L17.6 3Zm-1.1 16h1.8L7.1 4.8H5.2L16.5 19Z"/></svg></a>
+        <a href="https://www.linkedin.com/company/dracortia" target="_blank" rel="noopener" aria-label="Dracortia on LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.8 3.2a2.2 2.2 0 1 0 0 4.4 2.2 2.2 0 0 0 0-4.4ZM3 9.2h3.6V21H3V9.2Zm6 0h3.4v1.6h.1c.7-1.1 1.9-1.9 3.7-1.9 3.1 0 3.8 2 3.8 4.7V21h-3.6v-6.3c0-1.6-.5-2.7-1.9-2.7-1.1 0-1.8.8-2.1 1.5-.1.3-.1.6-.1 1V21H9V9.2Z"/></svg></a>
       </div>
     </div>
   </div>
@@ -423,54 +753,171 @@
 <!-- ==================================================================
      MODALS
      ================================================================== -->
-<div class="modal" id="modal-1" role="dialog" aria-modal="true" aria-label="Soul Spires: Initium" hidden>
+<div class="modal" id="m-soulspires" role="dialog" aria-modal="true" aria-labelledby="m-soulspires-title" hidden>
   <div class="modal-backdrop" data-close></div>
   <div class="modal-panel">
-    <button class="modal-close" type="button" data-close aria-label="Close"><span></span><span></span></button>
-    <iframe data-src="https://www.youtube.com/embed/0ExXmmjxRBg?rel=0&modestbranding=1&playsinline=1" referrerpolicy="strict-origin-when-cross-origin" title="Soul Spires: Initium" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
-    <div class="modal-meta">
-      <h3>Soul Spires: Initium</h3>
-      <a href="https://www.soulspires.com/" target="_blank" rel="noopener">Visit project ↗</a>
+    <button class="modal-close" type="button" data-close aria-label="Close dossier"><span></span><span></span></button>
+
+    <div class="modal-head">
+      <p class="modal-kicker">Archive / A—01</p>
+      <h3 class="modal-title" id="m-soulspires-title">Soul Spires: Initium</h3>
+      <p class="modal-sub">Square Table Games</p>
+    </div>
+
+    <div class="modal-player">
+      <iframe data-src="https://www.youtube.com/embed/0ExXmmjxRBg?rel=0&amp;modestbranding=1&amp;playsinline=1" title="Soul Spires: Initium — reveal" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+    </div>
+
+    <div class="modal-body">
+      <dl class="dossier">
+        <div><dt>Client</dt><dd>Square Table Games</dd></div>
+        <div><dt>Scope</dt><dd>Original music · sound design</dd></div>
+        <div><dt>Deliverable</dt><dd>Reveal trailer</dd></div>
+      </dl>
+      <a class="modal-link" href="https://www.soulspires.com/" target="_blank" rel="noopener">Visit project <span aria-hidden="true">↗</span></a>
     </div>
   </div>
 </div>
 
-<div class="modal" id="modal-2" role="dialog" aria-modal="true" aria-label="Rogue Slime" hidden>
+<div class="modal" id="m-rogue" role="dialog" aria-modal="true" aria-labelledby="m-rogue-title" hidden>
   <div class="modal-backdrop" data-close></div>
   <div class="modal-panel">
-    <button class="modal-close" type="button" data-close aria-label="Close"><span></span><span></span></button>
-    <iframe data-src="https://www.youtube.com/embed/03TC8wSO9PU?rel=0&modestbranding=1&playsinline=1" referrerpolicy="strict-origin-when-cross-origin" title="Rogue Slime" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
-    <div class="modal-meta">
-      <h3>Rogue Slime</h3>
-      <a href="https://questseeker.games/" target="_blank" rel="noopener">Visit Quest Seeker ↗</a>
+    <button class="modal-close" type="button" data-close aria-label="Close dossier"><span></span><span></span></button>
+
+    <div class="modal-head">
+      <p class="modal-kicker">Archive / A—02</p>
+      <h3 class="modal-title" id="m-rogue-title">Rogue Slime</h3>
+      <p class="modal-sub">Quest Seeker Games</p>
+    </div>
+
+    <div class="modal-player">
+      <iframe data-src="https://www.youtube.com/embed/03TC8wSO9PU?rel=0&amp;modestbranding=1&amp;playsinline=1" title="Rogue Slime" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+    </div>
+
+    <div class="modal-body">
+      <dl class="dossier">
+        <div><dt>Client</dt><dd>Quest Seeker Games</dd></div>
+        <div><dt>Scope</dt><dd>Original composition</dd></div>
+        <div><dt>Deliverable</dt><dd>Original cue</dd></div>
+      </dl>
+      <a class="modal-link" href="https://questseeker.games/" target="_blank" rel="noopener">Visit Quest Seeker <span aria-hidden="true">↗</span></a>
     </div>
   </div>
 </div>
 
-<div class="modal" id="modal-3" role="dialog" aria-modal="true" aria-label="Don't Lose Aggro" hidden>
+<div class="modal" id="m-dla" role="dialog" aria-modal="true" aria-labelledby="m-dla-title" hidden>
   <div class="modal-backdrop" data-close></div>
-  <div class="modal-panel">
-    <button class="modal-close" type="button" data-close aria-label="Close"><span></span><span></span></button>
-    <iframe data-src="https://www.youtube.com/embed/9V5tDmusu08?rel=0&modestbranding=1&playsinline=1" referrerpolicy="strict-origin-when-cross-origin" title="Don't Lose Aggro" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
-    <div class="modal-meta">
-      <h3>Don't Lose Aggro</h3>
-      <a href="https://store.steampowered.com/app/3079160/Dont_Lose_Aggro/" target="_blank" rel="noopener">View on Steam ↗</a>
+  <div class="modal-panel modal-panel-wide">
+    <button class="modal-close" type="button" data-close aria-label="Close dossier"><span></span><span></span></button>
+
+    <div class="modal-head">
+      <p class="modal-kicker">Archive / A—03</p>
+      <h3 class="modal-title" id="m-dla-title">Don't Lose Aggro</h3>
+      <p class="modal-sub">Action RPG · original score, sound design &amp; mix</p>
+    </div>
+
+    <div class="modal-stage">
+      <div class="modal-player">
+        <div class="tabs" role="tablist" aria-label="Footage">
+          <button class="tab is-active" type="button" role="tab" id="tab-trailer" aria-selected="true" aria-controls="dla-player" data-video="9V5tDmusu08">01 / Trailer</button>
+          <button class="tab" type="button" role="tab" id="tab-ingame" aria-selected="false" aria-controls="dla-player" data-video="ux2sh79JPpc">02 / In-game</button>
+        </div>
+        <div class="modal-frame" id="dla-player" role="tabpanel" aria-labelledby="tab-trailer">
+          <iframe data-src="https://www.youtube.com/embed/9V5tDmusu08?rel=0&amp;modestbranding=1&amp;playsinline=1" title="Don't Lose Aggro — trailer" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+
+      <div class="modal-body modal-info">
+        <dl class="dossier">
+          <div><dt>Client</dt><dd>Don't Lose Aggro</dd></div>
+          <div><dt>Scope</dt><dd>Music · sound design · implementation</dd></div>
+          <div><dt>Deliverable</dt><dd>Original score &amp; in-game audio</dd></div>
+        </dl>
+        <a class="modal-link" href="https://store.steampowered.com/app/3079160/Dont_Lose_Aggro/" target="_blank" rel="noopener">View on Steam <span aria-hidden="true">↗</span></a>
+
+        <figure class="client-note">
+          <blockquote>“<b>Dracortia understands what it means to work on an indie game.</b> Iterating with Eloy is an immense pleasure that yields <b>fantastic results</b> — both for composition and sound design he has proven to be a perfect fit for the project.”</blockquote>
+          <figcaption>
+            <img src="images/DLA.jpg" alt="" width="400" height="400" loading="lazy">
+            <span><strong>Don't Lose Aggro</strong><span>Game studio</span></span>
+          </figcaption>
+        </figure>
+      </div>
     </div>
   </div>
 </div>
 
-<div class="modal" id="modal-4" role="dialog" aria-modal="true" aria-label="Don't Lose Aggro — in-game" hidden>
-  <div class="modal-backdrop" data-close></div>
-  <div class="modal-panel">
-    <button class="modal-close" type="button" data-close aria-label="Close"><span></span><span></span></button>
-    <iframe data-src="https://www.youtube.com/embed/ux2sh79JPpc?rel=0&modestbranding=1&playsinline=1" referrerpolicy="strict-origin-when-cross-origin" title="Don't Lose Aggro — in-game" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
-    <div class="modal-meta">
-      <h3>Don't Lose Aggro — in-game</h3>
-      <a href="https://store.steampowered.com/app/3079160/Dont_Lose_Aggro/" target="_blank" rel="noopener">View on Steam ↗</a>
+<!-- ==================================================================
+     AUDIO DECK
+     ================================================================== -->
+<div class="deck" id="deck" role="region" aria-label="Audition reel">
+  <button class="deck-face" id="deckFace" type="button" aria-label="Open audition reel" aria-expanded="false" aria-controls="deckPanel" data-cursor="PLAY">
+    <span class="deck-face-ring" aria-hidden="true"></span>
+    <svg class="ico-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+    <svg class="ico-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
+    <span class="deck-face-eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+  </button>
+
+  <div class="deck-panel" id="deckPanel" aria-hidden="true" inert>
+    <div class="deck-head">
+      <span>Audition reel</span>
+      <span id="deckIndex">01 / 03</span>
     </div>
+
+    <div class="deck-now">
+      <b id="deckTitle">Soul Spires: Initium</b>
+      <span id="deckSub">Reveal · Square Table Games</span>
+      <a class="deck-yt" id="deckYT" href="https://www.youtube.com/watch?v=0ExXmmjxRBg" target="_blank" rel="noopener">Open on YouTube <span aria-hidden="true">↗</span></a>
+    </div>
+
+    <div class="deck-wave" id="deckWave" aria-hidden="true">
+      <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+    </div>
+
+    <div class="deck-row">
+      <button type="button" id="deckPrev" aria-label="Previous track">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 5v14L5 12z" fill="currentColor"/><path d="M19 5v14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <button type="button" class="deck-play" id="deckPlay" aria-label="Play">
+        <svg class="ico-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+        <svg class="ico-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
+      </button>
+      <button type="button" id="deckNext" aria-label="Next track">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/><path d="M5 5v14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <span class="deck-time" id="deckTime">0:00</span>
+    </div>
+
+    <div class="deck-foot">
+      <button type="button" id="deckMute" aria-label="Mute">
+        <svg class="ico-vol-on" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/>
+          <path d="M16.5 8.6a4.8 4.8 0 0 1 0 6.8M19 6.2a8 8 0 0 1 0 11.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        <svg class="ico-vol-off" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/>
+          <path d="M16.5 9.5l5 5M21.5 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <input class="deck-vol" id="deckVol" type="range" min="0" max="100" step="1" value="65" aria-label="Volume">
+      <span class="deck-state" id="deckState">READY</span>
+    </div>
+
+    <div class="deck-progress" aria-hidden="true"><i id="deckFill"></i></div>
+
+    <button class="deck-close" id="deckClose" type="button" aria-label="Close audition reel">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
   </div>
 </div>
 
+<div class="deck-mount" id="deckMount" aria-hidden="true"></div>
+
+<noscript>
+  <div class="noscript-note">Audio and video playback need JavaScript. The contact form and all written details work without it.</div>
+</noscript>
+
+<script src="js/tracks.js" defer></script>
 <script src="js/dra.js" defer></script>
 </body>
 </html>
